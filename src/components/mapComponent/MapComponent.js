@@ -75,9 +75,9 @@ const MapComponent = () => {
                         // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                         url='http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
                     />
-                    <Marker position={positionSanJose}>
+                    <Marker position={positionSanJose} >
                         <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
+                            <p>A pretty CSS3 popup. <br /> Easily customizable.</p>
                         </Popup>
                     </Marker>
                 </MapContainer>

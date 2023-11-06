@@ -1,5 +1,6 @@
 import React from "react";
 import { MapContainer, TileLayer, useMap } from 'react-leaflet'
+import { Marker, Popup } from "react-leaflet";
 import { useState, useEffect, useCallback } from "react";
 
 import './map.scss';
@@ -43,6 +44,7 @@ const MapComponent = () => {
         }
 
         navigator.geolocation.getCurrentPosition(success, error, {
+            // высокая точность
             enableHighAccuracy: true
         })
 
@@ -73,18 +75,21 @@ const MapComponent = () => {
                         // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                         url='http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
                     />
+                    <Marker position={positionSanJose}>
+                        <Popup>
+                            A pretty CSS3 popup. <br /> Easily customizable.
+                        </Popup>
+                    </Marker>
                 </MapContainer>
             </div>
             <div className="map__curentPosition">
-                <p>Ваше текущее место положение <br /> на карте оно на данный момент ни как не отобразится</p>
+                <p>Ваше текущее место положение <br /> на карте оно на данный момент ни как не отобразится <br /> в маркер координаты тоже захардкожены</p>
                 {curentPositinItem}
             </div>
 
         </div>
 
-
     )
-
 }
 
 export default MapComponent;

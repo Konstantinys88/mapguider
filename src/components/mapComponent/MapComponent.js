@@ -1,7 +1,14 @@
 import React from "react";
+// import icon from './computer-solid.svg';
+
 import { MapContainer, TileLayer, useMap } from 'react-leaflet'
 import { Marker, Popup } from "react-leaflet";
 import { useState, useEffect, useCallback } from "react";
+
+
+import { Icon } from "leaflet";
+
+
 
 import './map.scss';
 
@@ -13,28 +20,26 @@ const MapComponent = () => {
 
     const [latitudeCurent, setLatitudeCurent] = useState(37.3394);
     const [longitudeCurent, setLongitudeCurent] = useState(-121.895);
-    
-
     const positionCurrent = [latitudeCurent, longitudeCurent];
+
+
     console.log(positionCurrent)
 
     useEffect(() => {
         pos();
         console.log('render')
-        
+
     }, [positionCurrent]);
 
 
     const pos = () => {
 
-        const success = ({ coords }) => {
+        const success = async ({ coords }) => {
             // получаем широту и долготу
             const { latitude, longitude } = coords
             const position = [latitude, longitude]
-            // [широта, долгота]
-            // console.log(position)
-            setLatitudeCurent(latitude)
-            setLongitudeCurent(longitude)
+            await setLatitudeCurent(latitude)
+            await setLongitudeCurent(longitude)
         }
 
         const error = ({ message }) => {
@@ -46,7 +51,7 @@ const MapComponent = () => {
             enableHighAccuracy: true
         })
     }
-    
+
     const renderCurentPosition = () => {
         return (
             <ul className="map__curentPositionBlock">
@@ -56,7 +61,15 @@ const MapComponent = () => {
         )
     }
 
-    const curentPositinItem = renderCurentPosition()
+    const curentPositinItem = renderCurentPosition();
+
+    //Стили на иконки
+    const iconTest = new Icon({
+        iconUrl: 'https://i.pinimg.com/originals/b9/05/3d/b9053d873e9f69058997913e0fffca2e.png',
+        iconSize: [50, 50],
+        // iconAnchor: [40, 90],
+        // popupAnchor: [-25, -40],
+    });
 
     return (
         <div className="map">
@@ -64,19 +77,25 @@ const MapComponent = () => {
                 <MapContainer
                     center={positionCurrent}
                     zoom={zoomLevel}
-                    scrollWheelZoom={false}
-                >
+                    scrollWheelZoom={true}>
+
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url='http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
                     />
-                    <Marker position={positionCurrent} >
+
+                    <Marker
+                        position={positionCurrent}
+                        icon={iconTest}
+                    >
                         <Popup>
                             <p>Ваша позиция</p>
                         </Popup>
                     </Marker>
 
-                    <Marker position={[37.3394, -121.88]} >
+                    <Marker
+                        position={[37.3394, -121.88]}
+                        icon={iconTest} >
                         <Popup>
                             <p>Test1</p>
                         </Popup>
@@ -87,10 +106,11 @@ const MapComponent = () => {
                             <p>Test2</p>
                         </Popup>
                     </Marker>
+
                 </MapContainer>
             </div>
             <div className="map__curentPosition">
-                <p>Ваше текущее место положение <br /> на карте оно на данный момент ни как не отобразится <br /> в маркер координаты тоже захардкожены</p>
+                <p>Ваше текущее место положение </p>
                 {curentPositinItem}
             </div>
         </div>

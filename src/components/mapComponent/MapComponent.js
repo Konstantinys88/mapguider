@@ -13,28 +13,26 @@ const MapComponent = () => {
     const positionSanJose = [37.3394, -121.895]; // [latitude, longitude] san-jose
     const zoomLevel = 12;
 
-
     const [latitudeCurent, setLatitudeCurent] = useState(37.3394);
     const [longitudeCurent, setLongitudeCurent] = useState(-121.895);
 
-    const positionCurrent = [latitudeCurent, longitudeCurent];
-    console.log(positionCurrent)
+    const [loading, setLoading] = useState(true);
+
+    console.log(latitudeCurent, longitudeCurent)
 
     useEffect(() => {
         pos();
         console.log('render')
-
     }, [latitudeCurent, longitudeCurent]);
-
 
     const pos = () => {
 
         const success = ({ coords }) => {
-            // получаем широту и долготу
             const { latitude, longitude } = coords
             // const position = [latitude, longitude]
-            setLatitudeCurent(latitude)
-            setLongitudeCurent(longitude)
+            setLatitudeCurent(latitude);
+            setLongitudeCurent(longitude);
+            setLoading(false)
         }
 
         const error = ({ message }) => {
@@ -42,7 +40,6 @@ const MapComponent = () => {
         }
 
         navigator.geolocation.getCurrentPosition(success, error, {
-            // высокая точность
             enableHighAccuracy: true
         })
     }
@@ -51,21 +48,15 @@ const MapComponent = () => {
     const iconTest = new Icon({
         iconUrl: 'https://i.pinimg.com/originals/b9/05/3d/b9053d873e9f69058997913e0fffca2e.png',
         iconSize: [50, 50],
-        // iconAnchor: [40, 90],
-        // popupAnchor: [-25, -40],
     });
 
     const iconPerson = new Icon({
         iconUrl: 'https://w7.pngwing.com/pngs/587/702/png-transparent-attribution-icon-person-icon-male-icon-person.png',
         iconSize: [50, 50],
-        // iconAnchor: [40, 90],
-        // popupAnchor: [-25, -40],
     });
 
 
-
     const renderCurentPosition = () => {
-
         return (
             <>
                 <div className="map__leaflet-container">
@@ -78,16 +69,13 @@ const MapComponent = () => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url='http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
                         />
-
                         <Marker
                             position={[latitudeCurent, longitudeCurent]}
-                            icon={iconPerson}
-                        >
+                            icon={iconPerson}>
                             <Popup>
                                 <p>Ваша позиция</p>
                             </Popup>
                         </Marker>
-
                         <Marker
                             position={[37.3394, -121.88]}
                             icon={iconTest} >
@@ -95,13 +83,6 @@ const MapComponent = () => {
                                 <p>Test1</p>
                             </Popup>
                         </Marker>
-
-                        <Marker position={[37.310, -121.88]} >
-                            <Popup>
-                                <p>Test2</p>
-                            </Popup>
-                        </Marker>
-
                     </MapContainer>
                 </div>
                 <div className="map__curentPosition">
@@ -112,17 +93,19 @@ const MapComponent = () => {
                     </ul>
                 </div>
             </>
-
         )
     }
 
     const curentPositinItem = renderCurentPosition();
 
+    const loadingContent = loading ? "Идет занрузка" : null;
+    const content = !(loading) ? curentPositinItem : null;
+
     return (
         <div className="map">
-            {curentPositinItem}
+            {loadingContent}
+            {content}
         </div>
-
     )
 }
 

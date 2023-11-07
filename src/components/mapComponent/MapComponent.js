@@ -11,20 +11,18 @@ const MapComponent = () => {
     const zoomLevel = 12;
 
 
-    const [latitudeCurent, setLatitudeCurent] = useState();
-    const [longitudeCurent, setLongitudeCurent] = useState();
-
-
-    // console.log(latitudeCurent)
-    // console.log(longitudeCurent)
+    const [latitudeCurent, setLatitudeCurent] = useState(37.3394);
+    const [longitudeCurent, setLongitudeCurent] = useState(-121.895);
+    
 
     const positionCurrent = [latitudeCurent, longitudeCurent];
     console.log(positionCurrent)
 
-
     useEffect(() => {
-        pos()
-    }, []);
+        pos();
+        console.log('render')
+        
+    }, [positionCurrent]);
 
 
     const pos = () => {
@@ -47,10 +45,8 @@ const MapComponent = () => {
             // высокая точность
             enableHighAccuracy: true
         })
-
     }
-
-
+    
     const renderCurentPosition = () => {
         return (
             <ul className="map__curentPositionBlock">
@@ -66,18 +62,29 @@ const MapComponent = () => {
         <div className="map">
             <div className="map__leaflet-container">
                 <MapContainer
-                    center={positionSanJose}
+                    center={positionCurrent}
                     zoom={zoomLevel}
                     scrollWheelZoom={false}
                 >
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        // url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                         url='http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
                     />
-                    <Marker position={positionSanJose} >
+                    <Marker position={positionCurrent} >
                         <Popup>
-                            <p>A pretty CSS3 popup. <br /> Easily customizable.</p>
+                            <p>Ваша позиция</p>
+                        </Popup>
+                    </Marker>
+
+                    <Marker position={[37.3394, -121.88]} >
+                        <Popup>
+                            <p>Test1</p>
+                        </Popup>
+                    </Marker>
+
+                    <Marker position={[37.310, -121.88]} >
+                        <Popup>
+                            <p>Test2</p>
                         </Popup>
                     </Marker>
                 </MapContainer>
@@ -86,7 +93,6 @@ const MapComponent = () => {
                 <p>Ваше текущее место положение <br /> на карте оно на данный момент ни как не отобразится <br /> в маркер координаты тоже захардкожены</p>
                 {curentPositinItem}
             </div>
-
         </div>
 
     )

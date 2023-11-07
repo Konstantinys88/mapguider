@@ -71,6 +71,13 @@ const MapComponent = () => {
         // popupAnchor: [-25, -40],
     });
 
+    const iconPerson = new Icon({
+        iconUrl: 'https://w7.pngwing.com/pngs/587/702/png-transparent-attribution-icon-person-icon-male-icon-person.png',
+        iconSize: [50, 50],
+        // iconAnchor: [40, 90],
+        // popupAnchor: [-25, -40],
+    });
+
     return (
         <div className="map">
             <div className="map__leaflet-container">
@@ -86,7 +93,7 @@ const MapComponent = () => {
 
                     <Marker
                         position={positionCurrent}
-                        icon={iconTest}
+                        icon={iconPerson}
                     >
                         <Popup>
                             <p>Ваша позиция</p>

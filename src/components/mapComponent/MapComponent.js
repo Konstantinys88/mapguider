@@ -11,7 +11,7 @@ import './map.scss';
 const MapComponent = () => {
 
     const positionSanJose = [37.3394, -121.895]; // [latitude, longitude] san-jose
-    const zoomLevel = 12;
+    const zoomLevel = 14;
 
     const [latitudeCurent, setLatitudeCurent] = useState(37.3394);
     const [longitudeCurent, setLongitudeCurent] = useState(-121.895);
@@ -55,6 +55,27 @@ const MapComponent = () => {
         iconSize: [50, 50],
     });
 
+    //расчет растояния 
+    function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+        var dLon = deg2rad(lon2 - lon1);
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c; // Distance in km
+        return d;
+    }
+
+    function deg2rad(deg) {
+        return deg * (Math.PI / 180)
+    }
+
+    const distanceMOWBKK = getDistanceFromLatLonInKm(latitudeCurent, longitudeCurent, 37.3394, -121.895)
+    console.log(distanceMOWBKK);
+
 
     const renderCurentPosition = () => {
         return (
@@ -67,7 +88,7 @@ const MapComponent = () => {
 
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url='http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
+                            url='http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
                         />
                         <Marker
                             position={[latitudeCurent, longitudeCurent]}
@@ -83,6 +104,7 @@ const MapComponent = () => {
                                 <p>Test1</p>
                             </Popup>
                         </Marker>
+
                     </MapContainer>
                 </div>
                 <div className="map__curentPosition">
@@ -90,6 +112,7 @@ const MapComponent = () => {
                     <ul className="map__curentPositionBlock">
                         <li>Широта: {latitudeCurent}</li>
                         <li>Долгота: {longitudeCurent}</li>
+                        <li>До Сан-Хосе : {Math.round(distanceMOWBKK)} кm</li>
                     </ul>
                 </div>
             </>

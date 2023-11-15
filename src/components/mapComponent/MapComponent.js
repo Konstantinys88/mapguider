@@ -181,7 +181,7 @@ const MapComponent = () => {
 
     const curentPositinItem = renderCurentPosition(data);
 
-    const loadingContent = loading ? "Идет занрузка" : null;
+    const loadingContent = loading ? "Идет загрузка" : null;
     const content = !(loading) ? curentPositinItem : null;
 
     return (

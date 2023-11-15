@@ -10,6 +10,30 @@ import './map.scss';
 
 const MapComponent = () => {
 
+    const data = [
+        {
+            title: "Casa La Mar Coco",
+            category: "Holiday home letting agency",
+            address: "La Chorrera, Provincia de Guanacaste, Coco, Costa Rica",
+            website: "airbnb.com",
+            phone: "+506 8837 3951",
+            worksTime: "Monday, Open 24 hours; Tuesday, Open 24 hours; Wednesday, Open 24 hours; Thursday, Open 24 hours; Friday, Open 24 hours; Saturday, 8 am to 4 pm; Sunday, 8 am to 12 pm",
+            coords: { latitude: "10.5648666", longitude: "-85.689810" },
+            imagUrl: "https://lh5.googleusercontent.com/p/AF1QipML-2njDEFPo9rPjfEReHhWtCRxpESFg9a2Ced3=w408-h272-k-no"
+        },
+        {
+            title: "Casa La Mar Coco 2",
+            category: "Holiday home letting agency",
+            address: "La Chorrera, Provincia de Guanacaste, Coco, Costa Rica",
+            website: "airbnb.com",
+            phone: "+506 8837 3951",
+            worksTime: "Monday, Open 24 hours; Tuesday, Open 24 hours; Wednesday, Open 24 hours; Thursday, Open 24 hours; Friday, Open 24 hours; Saturday, 8 am to 4 pm; Sunday, 8 am to 12 pm",
+            coords: { latitude: "10.5648666", longitude: "-85.689810" },
+            imagUrl: "https://lh5.googleusercontent.com/p/AF1QipML-2njDEFPo9rPjfEReHhWtCRxpESFg9a2Ced3=w408-h272-k-no"
+        },
+
+    ]
+
     const positionSanJose = [37.3394, -121.895]; // [latitude, longitude] san-jose
     const zoomLevel = 14;
 
@@ -76,6 +100,8 @@ const MapComponent = () => {
     const distanceMOWBKK = getDistanceFromLatLonInKm(latitudeCurent, longitudeCurent, 37.3394, -121.895)
     console.log(distanceMOWBKK);
 
+    
+
 
     const renderCurentPosition = () => {
         return (
@@ -102,6 +128,13 @@ const MapComponent = () => {
                             icon={iconTest} >
                             <Popup>
                                 <p>Test1</p>
+                            </Popup>
+                        </Marker>
+                        <Marker
+                            position={[10.5648666, -85.689810]}
+                            icon={iconTest} >
+                            <Popup>
+                                <p>Casa La Mar Coco</p>
                             </Popup>
                         </Marker>
 

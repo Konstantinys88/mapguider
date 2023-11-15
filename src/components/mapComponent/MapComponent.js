@@ -18,20 +18,38 @@ const MapComponent = () => {
             website: "airbnb.com",
             phone: "+506 8837 3951",
             worksTime: "Monday, Open 24 hours; Tuesday, Open 24 hours; Wednesday, Open 24 hours; Thursday, Open 24 hours; Friday, Open 24 hours; Saturday, 8 am to 4 pm; Sunday, 8 am to 12 pm",
-            coords: { latitude: "10.5648666", longitude: "-85.689810" },
+            coords: {
+                latitude: "10.5648666",
+                longitude: "-85.689810"
+            },
             imagUrl: "https://lh5.googleusercontent.com/p/AF1QipML-2njDEFPo9rPjfEReHhWtCRxpESFg9a2Ced3=w408-h272-k-no"
         },
         {
-            title: "Casa La Mar Coco 2",
+            title: "Test 2",
             category: "Holiday home letting agency",
             address: "La Chorrera, Provincia de Guanacaste, Coco, Costa Rica",
             website: "airbnb.com",
             phone: "+506 8837 3951",
             worksTime: "Monday, Open 24 hours; Tuesday, Open 24 hours; Wednesday, Open 24 hours; Thursday, Open 24 hours; Friday, Open 24 hours; Saturday, 8 am to 4 pm; Sunday, 8 am to 12 pm",
-            coords: { latitude: "10.5648666", longitude: "-85.689810" },
+            coords: {
+                latitude: "10.549177131029078",
+                longitude: "-85.69998033376883"
+            },
             imagUrl: "https://lh5.googleusercontent.com/p/AF1QipML-2njDEFPo9rPjfEReHhWtCRxpESFg9a2Ced3=w408-h272-k-no"
         },
-
+        {
+            title: "Test 3",
+            category: "Holiday home letting agency",
+            address: "La Chorrera, Provincia de Guanacaste, Coco, Costa Rica",
+            website: "airbnb.com",
+            phone: "+506 8837 3951",
+            worksTime: "Monday, Open 24 hours; Tuesday, Open 24 hours; Wednesday, Open 24 hours; Thursday, Open 24 hours; Friday, Open 24 hours; Saturday, 8 am to 4 pm; Sunday, 8 am to 12 pm",
+            coords: {
+                latitude: " 10.542679803371538",
+                longitude: "-85.68084009042305"
+            },
+            imagUrl: "https://lh5.googleusercontent.com/p/AF1QipML-2njDEFPo9rPjfEReHhWtCRxpESFg9a2Ced3=w408-h272-k-no"
+        },
     ]
 
     const positionSanJose = [37.3394, -121.895]; // [latitude, longitude] san-jose
@@ -41,12 +59,11 @@ const MapComponent = () => {
     const [longitudeCurent, setLongitudeCurent] = useState(-121.895);
 
     const [loading, setLoading] = useState(true);
-
-    console.log(latitudeCurent, longitudeCurent)
+    // console.log(latitudeCurent, longitudeCurent)
 
     useEffect(() => {
         pos();
-        console.log('render')
+        // console.log('render')
     }, [latitudeCurent, longitudeCurent]);
 
     const pos = () => {
@@ -98,12 +115,33 @@ const MapComponent = () => {
     }
 
     const distanceMOWBKK = getDistanceFromLatLonInKm(latitudeCurent, longitudeCurent, 37.3394, -121.895)
-    console.log(distanceMOWBKK);
-
-    
+    // console.log(distanceMOWBKK);
 
 
-    const renderCurentPosition = () => {
+    const renderCurentPosition = (arr) => {
+        const itemMarkers = arr.map((item, index) => {
+
+            let iconMarker = iconTest; //
+
+            return (
+                <>
+                    <Marker
+                        key={index}
+                        position={[+item.coords.latitude, +item.coords.longitude]}
+                        icon={iconMarker}>
+                        <Popup className="popupMarker">
+                            <h1>{item.title}</h1>
+                            <h3>Address: {item.address}</h3>
+                            <h3>Website: <a href={item.website}>{item.website}</a></h3>
+                            <h3>Phone: {item.phone}</h3>
+                            {/* <h3>Works Time: {item.worksTime}</h3> */}
+                            <img className="popupMarker__img" src={item.imagUrl} alt="asd" />
+                        </Popup>
+                    </Marker>
+                </>
+            )
+        })
+
         return (
             <>
                 <div className="map__leaflet-container">
@@ -116,6 +154,7 @@ const MapComponent = () => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url='http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
                         />
+
                         <Marker
                             position={[latitudeCurent, longitudeCurent]}
                             icon={iconPerson}>
@@ -123,20 +162,8 @@ const MapComponent = () => {
                                 <p>Ваша позиция</p>
                             </Popup>
                         </Marker>
-                        <Marker
-                            position={[37.3394, -121.88]}
-                            icon={iconTest} >
-                            <Popup>
-                                <p>Test1</p>
-                            </Popup>
-                        </Marker>
-                        <Marker
-                            position={[10.5648666, -85.689810]}
-                            icon={iconTest} >
-                            <Popup>
-                                <p>Casa La Mar Coco</p>
-                            </Popup>
-                        </Marker>
+
+                        {itemMarkers}
 
                     </MapContainer>
                 </div>
@@ -152,7 +179,7 @@ const MapComponent = () => {
         )
     }
 
-    const curentPositinItem = renderCurentPosition();
+    const curentPositinItem = renderCurentPosition(data);
 
     const loadingContent = loading ? "Идет занрузка" : null;
     const content = !(loading) ? curentPositinItem : null;
